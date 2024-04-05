@@ -27,11 +27,11 @@ const App = () => {
       chart2Promises.push(fetchCoinDetails(i));
     }
 
-    const gen1PokemonData = await Promise.all(chart1Promises);
-    const gen2PokemonData = await Promise.all(chart2Promises);
+    const gen1ChartData = await Promise.all(chart1Promises);
+    const gen2ChartData = await Promise.all(chart2Promises);
 
-    setChart1Diagram(gen1PokemonData);
-    setChart2Diagram(gen2PokemonData);
+    setChart1Diagram(gen1ChartData);
+    setChart2Diagram(gen2ChartData);
   };
 
   useEffect(() => {
