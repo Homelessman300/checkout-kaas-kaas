@@ -1,60 +1,48 @@
 import React, { useState, useEffect } from 'react';
-import './App.css';
+import axios from 'axios';
 
-const App = () => {
-  const [chart1Diagram, setChart1Diagram] = useState([]);
-  const [chart2Diagram, setChart2Diagram] = useState([]);
-
-  const fetchCoinDetails = async (id) => {
-    try {
-      const response = await fetch(`api.coincap.io/v2/assets/${id}`);
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      console.error('Error fetching Coin details:', error);
-    }
-  };
-
-  const fetchCoinList = async () => {
-    const chart1Promises = [];
-    const chart2Promises = [];
-
-    for (let i = 1; i <= 151; i++) {
-      chart1Promises.push(fetchCoinDetails(i));
-    }
-
-    for (let i = 152; i <= 251; i++) {
-      chart2Promises.push(fetchCoinDetails(i));
-    }
-
-    const gen1ChartData = await Promise.all(chart1Promises);
-    const gen2ChartData = await Promise.all(chart2Promises);
-
-    setChart1Diagram(gen1ChartData);
-    setChart2Diagram(gen2ChartData);
-  };
+function CoinCapData() {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [visibleAssets, setVisibleAssets] = useState(30);
 
   useEffect(() => {
-    fetchCoinList();
-  }, []);
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('https://api.coincap.io/v2/assets');
+        console.log(response);
+        setData(response.data.data.slice(0, visibleAssets));
+        setLoading(false);
+      } catch (error) {
+        setError(error);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [visibleAssets]);
+
+  const handleShowMore = () => {
+    setVisibleAssets(prevVisibleAssets => prevVisibleAssets + 10);
+  };
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
 
   return (
-    <>
-      <h1>Pokemon</h1>
-      <h2>Generation 1</h2>
-      <ol>
-        {chart1Diagram.map((pokemon, index) => (
-          <li key={index}>{pokemon.name}</li>
+    <div>
+      <h1>Crypto Assets</h1>
+      <ul>
+        {data.map(asset => (
+          <li key={asset.id}>{asset.name} - {asset.symbol} ${parseFloat(asset.priceUsd).toFixed(2)}</li>
         ))}
-      </ol>
-      <h2>Generation 2</h2>
-      <ol>
-        {chart2Diagram.map((pokemon, index) => (
-          <li key={index}>{pokemon.name}</li>
-        ))}
-      </ol>
-    </>
+      </ul>
+      {visibleAssets < 100 && (
+        <button onClick={handleShowMore}>Show More</button>
+      )}
+    </div>
   );
-};
+}
 
-export default App;
+export default CoinCapData;
