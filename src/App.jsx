@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './CoinCapData.css'; // Import CSS file
-
+import { Link } from 'react-router-dom';
 function CoinCapData() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -46,7 +46,9 @@ function CoinCapData() {
           <tbody>
             {data.map(asset => (
               <tr key={asset.id}>
-                <td>{asset.name}</td>
+                <td>
+                  <Link to={`/coins/${asset.id}`}>{asset.name}</Link>
+                  </td>
                 <td>{asset.symbol}</td>
                 <td>{asset.priceUsd ? parseFloat(asset.priceUsd).toFixed(2) : 'N/A'}</td>
               </tr>
