@@ -6,7 +6,7 @@ function CoinCapData() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [visibleAssets, setVisibleAssets] = useState(30);
+  const [visibleAssets, setVisibleAssets] = useState(10);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,13 +27,16 @@ function CoinCapData() {
   const handleShowMore = () => {
     setVisibleAssets(prevVisibleAssets => prevVisibleAssets + 10);
   };
+  const handleReset = () => {
+    setVisibleAssets(10);
+  }
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
   return (
     <div className="container">
-      <h1>Crypto Assets</h1>
+      <h2>Crypto Assets</h2>
       <div className="table-container">
         <table>
           <thead>
@@ -48,7 +51,7 @@ function CoinCapData() {
               <tr key={asset.id}>
                 <td>
                   <Link to={`/coins/${asset.id}`}>{asset.name}</Link>
-                  </td>
+                </td>
                 <td>{asset.symbol}</td>
                 <td>{asset.priceUsd ? parseFloat(asset.priceUsd).toFixed(2) : 'N/A'}</td>
               </tr>
@@ -56,8 +59,13 @@ function CoinCapData() {
           </tbody>
         </table>
       </div>
+
       {visibleAssets < 100 && (
-        <button onClick={handleShowMore}>Show More</button>
+        <>
+          <button onClick={handleShowMore}>Show More</button>
+          <button onClick={handleReset}>Reset</button>
+        </>
+
       )}
     </div>
   );
