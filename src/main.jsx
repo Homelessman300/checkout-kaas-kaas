@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App';
+import App from './Cryptolist.jsx';
 import './index.css';
-import Coinsdetails from './Coinsdetails';
+import Coinsdetails from './Coinsdetails.jsx';
+import LijnChart from './Lijnchart.jsx';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function Main() {
@@ -10,7 +11,7 @@ function Main() {
         <Router>
             <Routes>
                 <Route path="/" element={<Home />} />
-                <Route path="/app/:id" element={<Coinsdetails />} />
+                <Route path="/coins/:id" element={<Coinsdetails />} />
             </Routes>
         </Router>
     );
@@ -21,6 +22,7 @@ function Home() {
     return (    
        <>
        <App/>
+       <LijnChart/>
        </>
     );
 }
