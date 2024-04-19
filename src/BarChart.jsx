@@ -1,18 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Line } from "react-chartjs-2";
-import { CategoryScale, Chart, LinearScale, PointElement, LineElement } from "chart.js";
+import { Bar } from "react-chartjs-2";
 
-
-function LineChart() {
-  Chart.register(PointElement)
-  Chart.register(CategoryScale);
-  Chart.register(LinearScale);
-  Chart.register(LineElement);
-
+function BarChart() {
   const [cryptoList, setCryptoList] = useState([]);
-  const [limit, setLimit] = useState(100);
-  const [selectedCrypto, setSelectedCrypto] = useState(null);
+  const [limit, ] = useState(100);
+  const [selectedCrypto, setSelectedCrypto] = useState("");
   const [cryptoData, setCryptoData] = useState([]);
 
   useEffect(() => {
@@ -32,13 +25,12 @@ function LineChart() {
 
   useEffect(() => {
     const fetchCryptoData = async () => {
-      if (!selectedCrypto) return;
-
       try {
+        if (!selectedCrypto) return;
         const response = await axios.get(
-          `https://api.coincap.io/v2/assets/${selectedCrypto.id}/history?interval=d1`
+          `https://api.coincap.io/v2/assets/${selectedCrypto}/history?interval=d1`
         );
-        setCryptoData([response.data.data]);
+        setCryptoData(response.data.data);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -48,11 +40,7 @@ function LineChart() {
   }, [selectedCrypto]);
 
   const handleCryptoChange = (e) => {
-    const value = e.target.value;
-    const crypto = cryptoList.find((crypto) => crypto.id === value);
-    if (crypto) {
-      setSelectedCrypto(crypto);
-    }
+    setSelectedCrypto(e.target.value);
   };
 
   const formatDate = (timestamp) => {
@@ -64,18 +52,16 @@ function LineChart() {
   };
 
   const chartData = {
-    labels: cryptoData.length > 0 ? cryptoData[0].map((entry) => formatDate(entry.time)) : [],
-    datasets: selectedCrypto
-      ? [
-          {
-            label: `${selectedCrypto.name} Price (USD)`,
-            data: cryptoData.length > 0 ? cryptoData[0].map((entry) => parseFloat(entry.priceUsd)) : [],
-            fill: false,
-            borderColor: `rgb(${Math.random() * 255},${Math.random() * 255},${Math.random() * 255})`,
-            tension: 0.1,
-          },
-        ]
-      : [],
+    labels: cryptoData.map((entry) => formatDate(entry.time)),
+    datasets: [
+      {
+        label: `${selectedCrypto} Price (USD)`,
+        data: cryptoData.map((entry) => parseFloat(entry.priceUsd)),
+        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+        borderColor: 'rgba(75, 192, 192, 1)',
+        borderWidth: 1,
+      },
+    ],
   };
 
   const options = {
@@ -96,11 +82,15 @@ function LineChart() {
   };
 
   return (
-    <div className="LineChart">
+    <div className="BarChart">
       <h1>Cryptocurrency Price History</h1>
       <div>
         <label htmlFor="crypto-select">Select Cryptocurrency: </label>
-        <select id="crypto-select" onChange={handleCryptoChange}>
+        <select
+          id="crypto-select"
+          value={selectedCrypto}
+          onChange={handleCryptoChange}
+        >
           <option value="">Select a cryptocurrency</option>
           {cryptoList.map((crypto) => (
             <option key={crypto.id} value={crypto.id}>
@@ -109,11 +99,11 @@ function LineChart() {
           ))}
         </select>
       </div>
-      <div className="linechart-container">
-       {!cryptoData ? 'loading...' :  <Line data={chartData} options={options} />}
+      <div className="barchart-container">
+        {selectedCrypto && <Bar data={chartData} options={options} />}
       </div>
     </div>
   );
 }
 
-export default LineChart;
+export default BarChart;
