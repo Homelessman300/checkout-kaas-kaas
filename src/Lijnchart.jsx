@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Line } from "react-chartjs-2";
+import { ArcElement } from "chart.js";
+import Chart from "chart.js/auto";
 
 function LineChart() {
   const [cryptoList, setCryptoList] = useState([]);
@@ -65,7 +67,7 @@ function LineChart() {
     labels: cryptoData.length > 0 ? cryptoData[0].map((entry, index) => formatDate(entry.time)) : [],
     datasets: selectedCryptos.map((crypto, index) => ({
       label: `${crypto.name} Price (USD)`,
-      data: cryptoData.length > 0 ? cryptoData[index].map((entry) => parseFloat(entry.priceUsd)) : [],
+      data: cryptoData.length > 0 && cryptoData[index] ? cryptoData[index].map((entry) => parseFloat(entry.priceUsd)) : [],
       fill: false,
       borderColor: `rgb(${Math.random() * 255},${Math.random() * 255},${Math.random() * 255})`,
       tension: 0.1,
