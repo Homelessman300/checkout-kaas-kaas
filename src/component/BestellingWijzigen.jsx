@@ -13,14 +13,10 @@ const OrderModificationInfo = () => {
       </p>
       <hr className="my-4" />
       <p>
-        Bezoek onze
-        <a href="#" className="text-blue-500 hover:underline">
-          klantenservice pagina
-        </a>
-        voor meer informatie of controleer de
-        <a href="#" className="text-blue-500 hover:underline">
-          status van je bestelling hier
-        </a>.
+                         
+      Bezoek onze <a href="#" className=" text-blue-500 hover:underline ">sklantenservice pagina </a>
+        
+        voor meer informatie of controleer de <a href="#" className="text-blue-500 hover:underline"> status van je bestelling hier</a>.
       </p>
     </div>
   );

@@ -5,7 +5,7 @@ import { faFileInvoice, faProjectDiagram, faHeart, faFileAlt } from '@fortawesom
 
 function AccountCard() {
   return (
-    <div className="max-w-sm mx-auto bg-gray-100 rounded-lg shadow-md p-6">
+    <div className="max-w-sm mx-auto bg-[#639BAB] rounded-lg shadow-md p-6">
       <AccountHeader />
       <AccountMenu />
       <RewardSection />
@@ -17,8 +17,8 @@ function AccountCard() {
 function AccountHeader() {
   return (
     <div className="text-center mb-6">
-      <h1 className="text-lg font-bold text-gray-900">Hi Mariëlle</h1>
-      <p className="text-sm text-gray-600">
+      <h1 className="text-lg font-bold text-white">Hi Mariëlle</h1> {/* Updated to white */}
+      <p className="text-sm text-white">
         We hebben de bestelling toegevoegd aan je account. Zo heb je altijd inzicht.
       </p>
     </div>
@@ -46,8 +46,9 @@ function AccountMenu() {
 function AccountLink({ icon, label }) {
   return (
     <div className="bg-white rounded-lg p-4 shadow-md">
-      <FontAwesomeIcon icon={icon} className="text-gray-700 mb-2" />
-      <p className="text-sm font-semibold text-[#7aa5b5]">{label}</p>
+    <p className="text-sm font-semibold text-[#639BAB]">{label}</p> 
+      <FontAwesomeIcon icon={icon} className="text-[#6C6C6C] mb-2" />
+      
     </div>
   );
 }
@@ -56,8 +57,8 @@ function AccountLink({ icon, label }) {
 function RewardSection() {
   return (
     <div className="mt-6 text-center">
-      <p className="text-sm font-semibold">Verdien 25,- met jouw klustips</p>
-      <p className="text-sm text-gray-600">
+      <p className="text-sm font-semibold text-white">Verdien 25,- met jouw klustips</p> 
+      <p className="text-sm text-white">
         Door 5 foto’s van jouw project en jouw tips te delen!
       </p>
       <div className="flex items-center justify-center mt-4">

@@ -19,16 +19,17 @@ function Main() {
 }
 
 function Home() {
-    // Your Home component logic here
-    return (    
-       <>
-       <App/>
-       <Coinsdetails/>
-       <OrderDetails/>
-       <LijnChart/>
-       
-       </>
+    return (
+        <>
+            <div className="space-y-5">
+              
+                <App />
+                <Coinsdetails />
+                <OrderDetails />
+                <LijnChart />
+            </div>
+        </>
     );
 }
 
-ReactDOM.createRoot(document.getElementById('root')).render(<Main/>);
+ReactDOM.createRoot(document.getElementById('root')).render(<Main />);
