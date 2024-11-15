@@ -6,7 +6,7 @@ const OrderDetails = () => {
 
       <h2 className="text-xl font-semibold mb-2">
         Details
-        <span className="bg-blue-600 text-white px-2 py-1 rounded-full text-sm">
+        <span className="bg-[#236376] text-white px-2 py-1 rounded-full text-sm">
           Bestelling 1000XXX
         </span>
       </h2>
